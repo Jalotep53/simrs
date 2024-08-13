@@ -8,8 +8,17 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use frontend\models\Poliklinik;
 use frontend\models\Dokter;
-
+use frontend\models\NotaJalan;
+use frontend\models\Setting;
+use wkhtmltox\PDF;
+use frontend\models\Penjab;
+use frontend\models\RawatJlDr;
+use frontend\models\JnsPerawatan;
+use frontend\models\KategoriPerawatan;
+use Yii;
+use kartik\alert\AlertBlock;
 /**
  * RegPeriksaController implements the CRUD actions for RegPeriksa model.
  */
@@ -187,7 +196,63 @@ $query = RegPeriksa::find()->where(['status_lanjut' => 'Ralan','tgl_registrasi'=
 
         return $this->redirect(['index']);
     }
+    public function actionCetakRajal($no_rawat){
     
+        $searchModel = new RegPeriksaSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+$query = RegPeriksa::find()->where(['status_lanjut' => 'Ralan','tgl_registrasi'=>date("Y-m-d")]);
+       
+        $dataProvider2 = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+            'pageSize' => 10,
+        ],
+            
+        'sort' => [
+            'defaultOrder' => [
+                'no_reg' => SORT_ASC,
+                
+            ]
+    ],
+        ]);
+        
+        
+//        print $no_rawat;die;
+        $reg = RegPeriksa::find()->where(['no_rawat'=>$no_rawat])->one();
+        $nota= NotaJalan::find()->where(['no_rawat'=>$no_rawat])->one();
+        
+        if(empty($nota)){
+            $message = "Billing belum di Klosing";
+echo "<script type='text/javascript'>alert('$message');</script>";
+
+return $this->render('rawat-jalan', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'dataProvider2' => $dataProvider2,
+        ]);
+        }else {
+            
+        }
+        
+        $poli = Poliklinik::find()->where(['kd_poli' => $reg->kd_poli])->one();
+        $setting = Setting::find()->one();
+        $penjab = Penjab::find()->where(['kd_pj' => $reg->kd_pj])->one();
+        $pasien = \frontend\models\Pasien::find()->where(['no_rkm_medis' => $reg->no_rkm_medis])->one();
+        $dokter = Dokter::find()->where(['kd_dokter' => $reg->kd_dokter])->one();
+        $tindakan = RawatJlDr::find()->where(['no_rawat' => $reg->no_rawat])->all();
+        
+        return $this->render('cetak-rajal',[
+            'setting'=>$setting,
+            'nota' =>$nota,
+            'poli' => $poli,
+            'penjab' => $penjab,
+            'reg' => $reg,
+            'pasien' => $pasien,
+            'dokter' => $dokter,
+            'tindakan' => $tindakan,
+        ]);
+//        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
+    }
     /**
      * Finds the RegPeriksa model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

@@ -9,7 +9,8 @@ use frontend\models\Penjab;
 use frontend\models\KamarInap;
 use frontend\models\Kamar;
 use frontend\models\Bangsal;
-
+use frontend\models\RawatJlDr;
+use frontend\models\JnsPerawatan;
 /**
  * This is the model class for table "reg_periksa".
  *
@@ -3403,5 +3404,10 @@ class RegPeriksa extends \yii\db\ActiveRecord
     public function getUjiFungsiKfr()
     {
         return $this->hasOne(UjiFungsiKfr::class, ['no_rawat' => 'no_rawat']);
+    }
+    public function getNamaTindakan(){
+        $rawatJldr = RawatJlDr::find()->where(['kd_jenis_prw' => 'kd_jenis_prw'])->all();
+        
+        return $rawatJldr;
     }
 }

@@ -102,6 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'status_poli',
             [
                 'class' => ActionColumn::className(),
+                'header' => 'Aksi',
                 'urlCreator' => function ($action, RegPeriksa $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'no_rawat' => $model->no_rawat]);
                  }
