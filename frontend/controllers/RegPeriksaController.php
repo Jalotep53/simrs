@@ -253,6 +253,17 @@ return $this->render('rawat-jalan', [
         ]);
 //        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
     }
+    public function actionAmbilKategoriPerawatan($no_rawat){
+        $tindakan = RawatJlDr::find()->where(['no_rawat' => $no_rawat])->all();
+        $kat = array();
+        foreach ($tindakan as $arr){
+            $jns = JnsPerawatan::find()->where(['kd_jenis_prw' => $arr->kd_jenis_prw])->one();
+            $kategori =KategoriPerawatan::find()->where(['kd_kategori' => $jns->kd_kategori])->one();
+            $kat[$kategori->kd_kategori] = $kategori->nm_kategori;
+        }
+        
+        return json_encode(array_unique($kat));
+    }
     /**
      * Finds the RegPeriksa model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

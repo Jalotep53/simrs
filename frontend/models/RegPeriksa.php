@@ -3410,4 +3410,15 @@ class RegPeriksa extends \yii\db\ActiveRecord
         
         return $rawatJldr;
     }
+    public function getNamaKategoriTindakan($no_rawat){
+        $tindakan = RawatJlDr::find()->where(['no_rawat' => $no_rawat])->all();
+        $kat = array();
+        foreach ($tindakan as $arr){
+            $jns = JnsPerawatan::find()->where(['kd_jenis_prw' => $arr->kd_jenis_prw])->one();
+            $kategori =KategoriPerawatan::find()->where(['kd_kategori' => $jns->kd_kategori])->one();
+            $kat[$kategori->kd_kategori] = $kategori->nm_kategori;
+        }
+        
+        return json_encode(array_unique($kat));
+    }
 }

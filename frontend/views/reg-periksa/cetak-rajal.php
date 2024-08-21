@@ -3,10 +3,9 @@
 use yii\helpers\Html;
 use frontend\models\JnsPerawatan;
 use frontend\models\KategoriPerawatan;
-
+use frontend\models\RawatJlDr;
 /** @var yii\web\View $this */
 /** @var frontend\models\RegPeriksa $model */
-
 
 //var_dump($setting->nama_instansi);
 function data_uri($file, $mime) {  
@@ -137,21 +136,43 @@ table, th, td {
       <td style="text-align: right">&nbsp;</td>
   </tr>
   <?php
-        foreach ($tindakan as $key =>$rows) {
-            print $tindakan[$key]['kd_jenis_prw'];
-//            if(kategoriTindakan($rows['kd_jenis_prw'] == kategoriTindakan($tindakan[$key-1]))){break;}
-?>
-  <tr>
-      <td style="text-align: left"><?=kategoriPerawatan($rows['kd_jenis_prw'])?></td>
-      <td style="text-align: right">:</td>
-      <td style="text-align: left" colspan=5><?=namaTindakan($rows['kd_jenis_prw'])?></td>
-      <td style="text-align: right"><?= rupiah(biayaTindakan($rows['kd_jenis_prw']))?></td>
+  
+  $tindakan = RawatJlDr::find()->where(['no_rawat' => $reg->no_rawat])->all();
+        $kat = array();
+        $tind = array();
+        foreach ($tindakan as $arr){
+            $jns = JnsPerawatan::find()->where(['kd_jenis_prw' => $arr->kd_jenis_prw])->one();
+            $tind[$jns->kd_jenis_prw] = $jns->nm_perawatan;
+            $kategori =KategoriPerawatan::find()->where(['kd_kategori' => $jns->kd_kategori])->one();
+            $kat[$kategori->kd_kategori] = $kategori->nm_kategori;
+        }
+        $kat = array_unique($kat);
+        
+        foreach ($kat as $key=>$value){
+            
+            ?>
+            <tr>
+      <td style="text-align: left">&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: left" colspan=6><b><?=$value?></b></td>
   </tr>
   <?php
-
-
-	}
-  ?>
+        foreach($tind as $k=>$v){
+            if($jns = JnsPerawatan::find()->where(['kd_jenis_prw' => $k,'kd_kategori' => $key])->one()){
+            
+            ?>
+  <tr>
+      <td style="text-align: left">&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: left" colspan=6><?=$jns->nm_perawatan?></td>
+  </tr>
+                <?php
+            }else{break;}
+        }
+        }
+            
+?>
+ 
 </table>
     </body>
 </html>
