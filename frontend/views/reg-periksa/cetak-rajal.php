@@ -167,7 +167,7 @@ table, th, td {
       <td style="text-align: left" colspan=6><?=$jns->nm_perawatan?></td>
   </tr>
                 <?php
-            }else{break;}
+            }
         }
         }
             
