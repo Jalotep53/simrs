@@ -17,6 +17,9 @@ use frontend\models\Penjab;
 use frontend\models\RawatJlDr;
 use frontend\models\JnsPerawatan;
 use frontend\models\KategoriPerawatan;
+use frontend\models\DetailPemberianObat;
+use frontend\models\KatObatBmhpOksigen;
+use frontend\models\ObatBmhpOksigen;
 use Yii;
 use kartik\alert\AlertBlock;
 /**
@@ -240,6 +243,7 @@ return $this->render('rawat-jalan', [
         $pasien = \frontend\models\Pasien::find()->where(['no_rkm_medis' => $reg->no_rkm_medis])->one();
         $dokter = Dokter::find()->where(['kd_dokter' => $reg->kd_dokter])->one();
         $tindakan = RawatJlDr::find()->where(['no_rawat' => $reg->no_rawat])->all();
+        $obat = DetailPemberianObat::find()->where(['no_rawat' => $reg->no_rawat])->all();
         
         return $this->render('cetak-rajal',[
             'setting'=>$setting,
@@ -250,6 +254,7 @@ return $this->render('rawat-jalan', [
             'pasien' => $pasien,
             'dokter' => $dokter,
             'tindakan' => $tindakan,
+            'obat' => $obat,
         ]);
 //        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
     }

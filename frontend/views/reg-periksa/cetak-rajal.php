@@ -170,9 +170,10 @@ table, th, td {
   </tr>
                 <?php
             }
-        }
-        }
             
+        }
+        }
+        print_r($obat);die;
 ?>
  
 </table>
