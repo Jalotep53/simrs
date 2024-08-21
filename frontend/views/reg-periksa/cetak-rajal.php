@@ -164,7 +164,9 @@ table, th, td {
   <tr>
       <td style="text-align: left">&nbsp;</td>
       <td style="text-align: right">&nbsp;</td>
-      <td style="text-align: left" colspan=6><?=$jns->nm_perawatan?></td>
+      <td style="text-align: left" colspan=4><?=$jns->nm_perawatan?></td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: right"><?=rupiah($jns->total_byrdr)?></td>
   </tr>
                 <?php
             }
