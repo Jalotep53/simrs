@@ -1,0 +1,29 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+/** @var yii\web\View $this */
+/** @var frontend\models\BiayaHarian $model */
+/** @var yii\widgets\ActiveForm $form */
+?>
+
+<div class="biaya-harian-form">
+
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'kd_kamar')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'nama_biaya')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'besar_biaya')->textInput() ?>
+
+    <?= $form->field($model, 'jml')->textInput() ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>

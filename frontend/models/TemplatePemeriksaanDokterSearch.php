@@ -1,0 +1,70 @@
+<?php
+
+namespace frontend\models;
+
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use frontend\models\TemplatePemeriksaanDokter;
+
+/**
+ * TemplatePemeriksaanDokterSearch represents the model behind the search form of `frontend\models\TemplatePemeriksaanDokter`.
+ */
+class TemplatePemeriksaanDokterSearch extends TemplatePemeriksaanDokter
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['no_template', 'kd_dokter', 'keluhan', 'pemeriksaan', 'penilaian', 'rencana', 'instruksi', 'evaluasi'], 'safe'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params)
+    {
+        $query = TemplatePemeriksaanDokter::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere(['like', 'no_template', $this->no_template])
+            ->andFilterWhere(['like', 'kd_dokter', $this->kd_dokter])
+            ->andFilterWhere(['like', 'keluhan', $this->keluhan])
+            ->andFilterWhere(['like', 'pemeriksaan', $this->pemeriksaan])
+            ->andFilterWhere(['like', 'penilaian', $this->penilaian])
+            ->andFilterWhere(['like', 'rencana', $this->rencana])
+            ->andFilterWhere(['like', 'instruksi', $this->instruksi])
+            ->andFilterWhere(['like', 'evaluasi', $this->evaluasi]);
+
+        return $dataProvider;
+    }
+}

@@ -1,0 +1,97 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+/** @var yii\web\View $this */
+/** @var frontend\models\PenilaianMedisIgdSearch $model */
+/** @var yii\widgets\ActiveForm $form */
+?>
+
+<div class="penilaian-medis-igd-search">
+
+    <?php $form = ActiveForm::begin([
+        'action' => ['index'],
+        'method' => 'get',
+    ]); ?>
+
+    <?= $form->field($model, 'no_rawat') ?>
+
+    <?= $form->field($model, 'tanggal') ?>
+
+    <?= $form->field($model, 'kd_dokter') ?>
+
+    <?= $form->field($model, 'anamnesis') ?>
+
+    <?= $form->field($model, 'hubungan') ?>
+
+    <?php // echo $form->field($model, 'keluhan_utama') ?>
+
+    <?php // echo $form->field($model, 'rps') ?>
+
+    <?php // echo $form->field($model, 'rpd') ?>
+
+    <?php // echo $form->field($model, 'rpk') ?>
+
+    <?php // echo $form->field($model, 'rpo') ?>
+
+    <?php // echo $form->field($model, 'alergi') ?>
+
+    <?php // echo $form->field($model, 'keadaan') ?>
+
+    <?php // echo $form->field($model, 'gcs') ?>
+
+    <?php // echo $form->field($model, 'kesadaran') ?>
+
+    <?php // echo $form->field($model, 'td') ?>
+
+    <?php // echo $form->field($model, 'nadi') ?>
+
+    <?php // echo $form->field($model, 'rr') ?>
+
+    <?php // echo $form->field($model, 'suhu') ?>
+
+    <?php // echo $form->field($model, 'spo') ?>
+
+    <?php // echo $form->field($model, 'bb') ?>
+
+    <?php // echo $form->field($model, 'tb') ?>
+
+    <?php // echo $form->field($model, 'kepala') ?>
+
+    <?php // echo $form->field($model, 'mata') ?>
+
+    <?php // echo $form->field($model, 'gigi') ?>
+
+    <?php // echo $form->field($model, 'leher') ?>
+
+    <?php // echo $form->field($model, 'thoraks') ?>
+
+    <?php // echo $form->field($model, 'abdomen') ?>
+
+    <?php // echo $form->field($model, 'genital') ?>
+
+    <?php // echo $form->field($model, 'ekstremitas') ?>
+
+    <?php // echo $form->field($model, 'ket_fisik') ?>
+
+    <?php // echo $form->field($model, 'ket_lokalis') ?>
+
+    <?php // echo $form->field($model, 'ekg') ?>
+
+    <?php // echo $form->field($model, 'rad') ?>
+
+    <?php // echo $form->field($model, 'lab') ?>
+
+    <?php // echo $form->field($model, 'diagnosis') ?>
+
+    <?php // echo $form->field($model, 'tata') ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>

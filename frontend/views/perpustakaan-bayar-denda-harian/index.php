@@ -1,0 +1,47 @@
+<?php
+
+use frontend\models\PerpustakaanBayarDendaHarian;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+
+/** @var yii\web\View $this */
+/** @var frontend\models\PerpustakaanBayarDendaHarianSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+
+$this->title = 'Perpustakaan Bayar Denda Harians';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="perpustakaan-bayar-denda-harian-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Create Perpustakaan Bayar Denda Harian', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'tgl_denda',
+            'no_anggota',
+            'no_inventaris',
+            'keterlambatan',
+            'besar_denda',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, PerpustakaanBayarDendaHarian $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'tgl_denda' => $model->tgl_denda, 'no_anggota' => $model->no_anggota, 'no_inventaris' => $model->no_inventaris]);
+                 }
+            ],
+        ],
+    ]); ?>
+
+
+</div>

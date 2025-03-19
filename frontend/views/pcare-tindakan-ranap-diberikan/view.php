@@ -1,0 +1,48 @@
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+
+/** @var yii\web\View $this */
+/** @var frontend\models\PcareTindakanRanapDiberikan $model */
+
+$this->title = $model->no_rawat;
+$this->params['breadcrumbs'][] = ['label' => 'Pcare Tindakan Ranap Diberikans', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+\yii\web\YiiAsset::register($this);
+?>
+<div class="pcare-tindakan-ranap-diberikan-view">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Update', ['update', 'no_rawat' => $model->no_rawat, 'noKunjungan' => $model->noKunjungan, 'tgl_perawatan' => $model->tgl_perawatan, 'jam' => $model->jam, 'kd_jenis_prw' => $model->kd_jenis_prw], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'no_rawat' => $model->no_rawat, 'noKunjungan' => $model->noKunjungan, 'tgl_perawatan' => $model->tgl_perawatan, 'jam' => $model->jam, 'kd_jenis_prw' => $model->kd_jenis_prw], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]) ?>
+    </p>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'no_rawat',
+            'noKunjungan',
+            'kdTindakanSK',
+            'tgl_perawatan',
+            'jam',
+            'kd_jenis_prw',
+            'material',
+            'bhp',
+            'tarif_tindakandr',
+            'tarif_tindakanpr',
+            'kso',
+            'menejemen',
+            'biaya_rawat',
+        ],
+    ]) ?>
+
+</div>

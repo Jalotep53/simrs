@@ -173,9 +173,28 @@ table, th, td {
             
         }
         }
-        print_r($obat);die;
+        
 ?>
- 
+ <tr>
+      <td style="text-align: left">Obat-obatan</td>
+      <td style="text-align: right">:</td>
+      <td style="text-align: right" colspan=5>&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+  </tr>
+  <?php
+   foreach ($obat as $ob){
+       ?>
+  
+  <tr>
+      <td style="text-align: left">&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: left" colspan=4><?=$ob->kodeBrng->nama_brng?></td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: right"></td>
+  </tr>
+  <?php
+   }
+  ?>
 </table>
     </body>
 </html>

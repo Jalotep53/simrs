@@ -1,0 +1,20 @@
+<?php
+
+use yii\helpers\Html;
+
+/** @var yii\web\View $this */
+/** @var frontend\models\Bpjs $model */
+
+$this->title = 'Create Bpjs';
+$this->params['breadcrumbs'][] = ['label' => 'Bpjs', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="bpjs-create">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?= $this->render('_form', [
+        'model' => $model,
+    ]) ?>
+
+</div>
