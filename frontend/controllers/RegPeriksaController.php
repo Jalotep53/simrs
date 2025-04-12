@@ -22,6 +22,8 @@ use frontend\models\KatObatBmhpOksigen;
 use frontend\models\ObatBmhpOksigen;
 use Yii;
 use kartik\alert\AlertBlock;
+use yii\db\Query;
+use yii\helpers\Json;
 /**
  * RegPeriksaController implements the CRUD actions for RegPeriksa model.
  */
@@ -244,6 +246,28 @@ return $this->render('rawat-jalan', [
         $dokter = Dokter::find()->where(['kd_dokter' => $reg->kd_dokter])->one();
         $tindakan = RawatJlDr::find()->where(['no_rawat' => $reg->no_rawat])->all();
         $obat = DetailPemberianObat::find()->where(['no_rawat' => $reg->no_rawat])->all();
+        $query = new Query;
+        $query->select(['detail_pemberian_obat.*'])  
+              ->from('detail_pemberian_obat')
+              ->leftJoin('databarang','databarang.kode_brng = detail_pemberian_obat.kode_brng')
+              ->leftJoin('obat_bmhp_oksigen','obat_bmhp_oksigen.kode_brng = detail_pemberian_obat.kode_brng')
+              ->where(['detail_pemberian_obat.no_rawat'=>$reg->no_rawat])
+              ->andWhere(['obat_bmhp_oksigen.kode_kat'=>1]); 
+        $command = $query->createCommand();
+        $obatsaja = $command->queryAll();
+        
+        
+      
+        $query2 = new Query;
+        $query2->select(['detail_pemberian_obat.*'])  
+              ->from('detail_pemberian_obat')
+              ->leftJoin('databarang','databarang.kode_brng = detail_pemberian_obat.kode_brng')
+              ->leftJoin('obat_bmhp_oksigen','obat_bmhp_oksigen.kode_brng = detail_pemberian_obat.kode_brng')
+              ->where(['detail_pemberian_obat.no_rawat'=>$reg->no_rawat])
+              ->andWhere(['obat_bmhp_oksigen.kode_kat'=>2]); 
+        $command = $query2->createCommand();
+        $bmhpsaja = $command->queryAll();
+        
         
         return $this->render('cetak-rajal',[
             'setting'=>$setting,
@@ -255,6 +279,9 @@ return $this->render('rawat-jalan', [
             'dokter' => $dokter,
             'tindakan' => $tindakan,
             'obat' => $obat,
+            'obatsaja' => $obatsaja,
+            'bmhpsaja' => $bmhpsaja,
+            
         ]);
 //        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
     }
