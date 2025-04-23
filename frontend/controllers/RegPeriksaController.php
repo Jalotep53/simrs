@@ -20,6 +20,10 @@ use frontend\models\KategoriPerawatan;
 use frontend\models\DetailPemberianObat;
 use frontend\models\KatObatBmhpOksigen;
 use frontend\models\ObatBmhpOksigen;
+use frontend\models\KamarInap;
+use frontend\models\Bangsal;
+use frontend\models\Kamar;
+use frontend\models\RawatInapDr;
 use Yii;
 use kartik\alert\AlertBlock;
 use yii\db\Query;
@@ -114,7 +118,7 @@ $query = RegPeriksa::find()->where(['status_lanjut' => 'Ralan','tgl_registrasi'=
         $dataProvider2 = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-            'pageSize' => 10,
+            'pageSize' => 30,
         ],
             
         'sort' => [
@@ -306,6 +310,9 @@ return $this->render('rawat-jalan', [
         
         
         $poli = Poliklinik::find()->where(['kd_poli' => $reg->kd_poli])->one();
+        $kamarInap = KamarInap::find()->where(['no_rawat' => $reg->no_rawat])->one();
+        $kamar = Kamar::find()->where(['kd_kamar' =>$kamarInap->kd_kamar])->one();
+        $bangsal = Bangsal::find()->where(['kd_bangsal'=>$kamar->kd_bangsal])->one();
         $setting = Setting::find()->one();
         $penjab = Penjab::find()->where(['kd_pj' => $reg->kd_pj])->one();
         $pasien = \frontend\models\Pasien::find()->where(['no_rkm_medis' => $reg->no_rkm_medis])->one();
@@ -343,6 +350,14 @@ return $this->render('rawat-jalan', [
               ->andWhere(['obat_bmhp_oksigen.kode_kat'=>3]); 
         $command = $query3->createCommand();
         $oksigensaja = $command->queryAll();
+        $queryAdminRanap = new Query();
+        $queryAdminRanap->select(['rawat_inap_dr.*','jns_perawatan_inap.*'])
+                        ->from('rawat_inap_dr')
+                        ->leftJoin('jns_perawatan_inap','jns_perawatan_inap.kd_jenis_prw=rawat_inap_dr.kd_jenis_prw')
+                        ->where(['jns_perawatan_inap.kd_kategori' => 'ADM'])
+                        ->andWhere(['rawat_inap_dr.no_rawat'=>$reg->no_rawat]);
+        $comand = $queryAdminRanap->createCommand();
+        $adminRanap = $comand->queryOne();
         
         
         return $this->render('cetak-ranap',[
@@ -358,6 +373,10 @@ return $this->render('rawat-jalan', [
             'obatsaja' => $obatsaja,
             'bmhpsaja' => $bmhpsaja,
             'oksigensaja' => $oksigensaja,
+            'kamar'=>$kamar,
+            'bangsal'=>$bangsal,
+            'kamarInap' => $kamarInap,
+            'adminRanap' => $adminRanap,
             
         ]);
 //        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);

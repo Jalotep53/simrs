@@ -92,15 +92,15 @@ table, th, td {
 
   </tr>
   <tr>
-      <td style="text-align: left">Unit/Instansi</td>
+      <td style="text-align: left">Bangsal/Kamar</td>
       <td style="text-align: right">:</td>
-      <td style="text-align: left" colspan=7><?=$poli->nm_poli?></td>
+      <td style="text-align: left" colspan=7><?=$kamar->kd_kamar?>,&nbsp;<?=$bangsal->nm_bangsal?></td>
 
   </tr>
   <tr>
-      <td style="text-align: left">Tanggal & jam</td>
+      <td style="text-align: left">Tanggal Perawatan</td>
       <td style="text-align: right">:</td>
-      <td style="text-align: left" colspan=7><?=$reg->tgl_registrasi." ".$reg->jam_reg?></td>
+      <td style="text-align: left" colspan=7><?=$kamarInap->tgl_masuk." ".$kamarInap->jam_masuk?>&nbsp;s.d&nbsp;<?=$kamarInap->tgl_keluar." ".$kamarInap->jam_keluar?></td>
 
   </tr>
   <tr>
@@ -134,6 +134,40 @@ table, th, td {
       <td style="text-align: right">:</td>
       <td style="text-align: right" colspan=6>&nbsp;</td>
       <td style="text-align: right"><?=rupiah($reg->biaya_reg)?></td>
+  </tr>
+   <tr>
+      <td style="text-align: left">Ruang</td>
+      <td style="text-align: right">:</td>
+      <td style="text-align: right" colspan=6>&nbsp;</td>
+      <td style="text-align: right"></td>
+  </tr>
+  <tr>
+      <td style="text-align: left">&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: left" colspan=4><?=$kamar->kd_kamar?>,&nbsp;<?=$bangsal->nm_bangsal?></td>
+      <td style="text-align: right"><?=rupiah($kamarInap->trf_kamar)?></td>
+      <td style="text-align: right;width: 10%"><?=$kamarInap->lama?></td>
+      <td style="text-align: right"><?=rupiah($kamarInap->ttl_biaya)?></td>
+  </tr>
+  <tr>
+      <td style="text-align: left">Rincian Biaya</td>
+      <td style="text-align: right">:</td>
+      <td style="text-align: right" colspan=6>&nbsp;</td>
+      <td style="text-align: right"></td>
+  </tr>
+  <tr>
+      <td style="text-align: left">Administrasi</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: right" colspan=6>&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+  </tr>
+  <tr>
+      <td style="text-align: left">&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: left" colspan=4><?=$adminRanap['nm_perawatan']?></td>
+      <td style="text-align: right"><?=rupiah($adminRanap['biaya_rawat'])?></td>
+      <td style="text-align: right;width: 10%">1</td>
+      <td style="text-align: right"><?=rupiah($adminRanap['biaya_rawat'])?></td>
   </tr>
   <tr>
       <td style="text-align: left">Tindakan</td>
