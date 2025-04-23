@@ -101,12 +101,14 @@ $this->params['breadcrumbs'][] = $this->title;
             //'status_bayar',
             //'status_poli',
             [
-                'class' => ActionColumn::className(),
-                'header' => 'Aksi',
-                'urlCreator' => function ($action, RegPeriksa $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'no_rawat' => $model->no_rawat]);
-                 }
-            ],
+        'label' => 'Aksi',
+        'format' => 'raw',
+        'content' => 
+        function($model) {
+            return Html::a('<span class="glyphicon glyphicon-print"></span>Cetak', ['reg-periksa/cetak-ranap', 'no_rawat' =>     $model->no_rawat],
+                ['class' => 'btn btn-primary']);
+        }
+    ],
         ],
     ]); ?>
 

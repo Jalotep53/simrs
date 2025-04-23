@@ -285,6 +285,72 @@ return $this->render('rawat-jalan', [
         ]);
 //        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
     }
+    public function actionCetakRanap($no_rawat){
+    
+        $searchModel = new RegPeriksaSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+        $query = RegPeriksa::find()
+                ->leftJoin('kamar_inap','kamar_inap.no_rawat=reg_periksa.no_rawat')
+                ->where(['status_lanjut' => 'ranap','kamar_inap.stts_pulang'=> '-']);
+       
+        $dataProvider2 = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+            'pageSize' => 10,
+        ],
+        ]);
+        
+        
+//        print $no_rawat;die;
+        $reg = RegPeriksa::find()->where(['no_rawat'=>$no_rawat])->one();
+        
+        
+        $poli = Poliklinik::find()->where(['kd_poli' => $reg->kd_poli])->one();
+        $setting = Setting::find()->one();
+        $penjab = Penjab::find()->where(['kd_pj' => $reg->kd_pj])->one();
+        $pasien = \frontend\models\Pasien::find()->where(['no_rkm_medis' => $reg->no_rkm_medis])->one();
+        $dokter = Dokter::find()->where(['kd_dokter' => $reg->kd_dokter])->one();
+        $tindakan = RawatJlDr::find()->where(['no_rawat' => $reg->no_rawat])->all();
+        $obat = DetailPemberianObat::find()->where(['no_rawat' => $reg->no_rawat])->all();
+        $query = new Query;
+        $query->select(['detail_pemberian_obat.*'])  
+              ->from('detail_pemberian_obat')
+              ->leftJoin('databarang','databarang.kode_brng = detail_pemberian_obat.kode_brng')
+              ->leftJoin('obat_bmhp_oksigen','obat_bmhp_oksigen.kode_brng = detail_pemberian_obat.kode_brng')
+              ->where(['detail_pemberian_obat.no_rawat'=>$reg->no_rawat])
+              ->andWhere(['obat_bmhp_oksigen.kode_kat'=>1]); 
+        $command = $query->createCommand();
+        $obatsaja = $command->queryAll();
+        
+        
+      
+        $query2 = new Query;
+        $query2->select(['detail_pemberian_obat.*'])  
+              ->from('detail_pemberian_obat')
+              ->leftJoin('databarang','databarang.kode_brng = detail_pemberian_obat.kode_brng')
+              ->leftJoin('obat_bmhp_oksigen','obat_bmhp_oksigen.kode_brng = detail_pemberian_obat.kode_brng')
+              ->where(['detail_pemberian_obat.no_rawat'=>$reg->no_rawat])
+              ->andWhere(['obat_bmhp_oksigen.kode_kat'=>2]); 
+        $command = $query2->createCommand();
+        $bmhpsaja = $command->queryAll();
+        
+        
+        return $this->render('cetak-ranap',[
+            'setting'=>$setting,
+            
+            'poli' => $poli,
+            'penjab' => $penjab,
+            'reg' => $reg,
+            'pasien' => $pasien,
+            'dokter' => $dokter,
+            'tindakan' => $tindakan,
+            'obat' => $obat,
+            'obatsaja' => $obatsaja,
+            'bmhpsaja' => $bmhpsaja,
+            
+        ]);
+//        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
+    }
     public function actionAmbilKategoriPerawatan($no_rawat){
         $tindakan = RawatJlDr::find()->where(['no_rawat' => $no_rawat])->all();
         $kat = array();
