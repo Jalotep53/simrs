@@ -243,6 +243,36 @@ table, th, td {
       <td style="text-align: right">Total BMHP</td>
       <td style="text-align: right"><?=rupiah($total)?></td>
   </tr>
+  <tr>
+      <td style="text-align: left">Gas Medis</td>
+      <td style="text-align: right">:</td>
+      <td style="text-align: right" colspan=5>&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+  </tr>
+  <?php
+ $total=0;
+   foreach ($oksigensaja as $ob){
+       $total=$total+$ob['total'];
+       ?>
+  
+  <tr>
+      <td style="text-align: left">&nbsp;</td>
+      <td style="text-align: right">&nbsp;</td>
+      <td style="text-align: left" colspan=4><?=namaObat($ob['kode_brng'])?></td>
+      <td style="text-align: right"><?=rupiah($ob['biaya_obat'])?></td>
+      <td style="text-align: right;width: 10%"><?=$ob['jml']?></td>
+      <td style="text-align: right"><?=rupiah($ob['total'])?></td>
+  </tr>
+  <?php
+   }
+  ?>
+  <tr>
+  <td style="text-align: left"></td>
+      <td style="text-align: right"></td>
+      <td style="text-align: right" colspan=5>&nbsp;</td>
+      <td style="text-align: right">Total Gas Medis</td>
+      <td style="text-align: right"><?=rupiah($total)?></td>
+  </tr>
 </table>
     </body>
 </html>

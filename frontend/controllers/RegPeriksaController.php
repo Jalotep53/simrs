@@ -333,6 +333,16 @@ return $this->render('rawat-jalan', [
               ->andWhere(['obat_bmhp_oksigen.kode_kat'=>2]); 
         $command = $query2->createCommand();
         $bmhpsaja = $command->queryAll();
+
+        $query3 = new Query;
+        $query3->select(['detail_pemberian_obat.*'])  
+              ->from('detail_pemberian_obat')
+              ->leftJoin('databarang','databarang.kode_brng = detail_pemberian_obat.kode_brng')
+              ->leftJoin('obat_bmhp_oksigen','obat_bmhp_oksigen.kode_brng = detail_pemberian_obat.kode_brng')
+              ->where(['detail_pemberian_obat.no_rawat'=>$reg->no_rawat])
+              ->andWhere(['obat_bmhp_oksigen.kode_kat'=>3]); 
+        $command = $query3->createCommand();
+        $oksigensaja = $command->queryAll();
         
         
         return $this->render('cetak-ranap',[
@@ -347,6 +357,7 @@ return $this->render('rawat-jalan', [
             'obat' => $obat,
             'obatsaja' => $obatsaja,
             'bmhpsaja' => $bmhpsaja,
+            'oksigensaja' => $oksigensaja,
             
         ]);
 //        return Yii::$app->response->sendFile("../../file/Hal.docx", "test.txt", ['inline'=>false]);
